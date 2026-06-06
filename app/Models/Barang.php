@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['nama_barang', 'jumlah', 'kondisi_barang', 'harga_per_hari', 'foto'])]
+#[Fillable(['nama_barang', 'jumlah', 'kondisi_barang', 'denda_per_hari', 'foto'])]
 class Barang extends Model
 {
     protected $table = 'barang';
@@ -23,7 +23,7 @@ class Barang extends Model
     }
 
     protected $casts = [
-        'harga_per_hari' => 'decimal:2',
+        'denda_per_hari' => 'decimal:2',
     ];
 
     protected $appends = [];

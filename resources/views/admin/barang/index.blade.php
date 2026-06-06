@@ -11,6 +11,7 @@
                 </button>
             </div>
         </section>
+        <br>
 
         <section class="rounded-xl border border-zinc-200 bg-white shadow-sm">
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-200 px-5 py-4">
@@ -30,14 +31,14 @@
                             <th class="px-4 py-3">Foto</th>
                             <th class="px-4 py-3">Jumlah</th>
                             <th class="px-4 py-3">Kondisi</th>
-                            <th class="px-4 py-3">Harga / Hari</th>
+                            <th class="px-4 py-3">Denda / Hari</th>
                             <th class="px-4 py-3">Status</th>
                             <th class="px-4 py-3"></th>
                         </tr>
                     </thead>
                     <tbody id="barangTable" class="divide-y divide-zinc-200">
                         @forelse ($barang as $item)
-                            <tr data-row data-search="{{ strtolower($item->nama_barang.' '.$item->jumlah.' '.$item->kondisi_barang.' '.$item->harga_per_hari.' '.$item->status) }}">
+                            <tr data-row data-search="{{ strtolower($item->nama_barang.' '.$item->jumlah.' '.$item->kondisi_barang.' '.$item->denda_per_hari.' '.$item->status) }}">
                                 <td class="px-4 py-3 font-medium">{{ $item->nama_barang }}</td>
                                 <td class="px-4 py-3">
                                     @if($item->foto)
@@ -48,7 +49,7 @@
                                 </td>
                                 <td class="px-4 py-3">{{ $item->jumlah }}</td>
                                 <td class="px-4 py-3 capitalize">{{ $item->kondisi_barang }}</td>
-                                <td class="px-4 py-3">{{ number_format($item->harga_per_hari, 2, ',', '.') }}</td>
+                                <td class="px-4 py-3">{{ number_format($item->denda_per_hari, 2, ',', '.') }}</td>
                                 <td class="px-4 py-3">{{ $item->status }}</td>
                                 <td class="px-4 py-3">
                                     <div class="flex justify-end gap-2">
@@ -59,7 +60,7 @@
                                             data-nama="{{ $item->nama_barang }}"
                                             data-jumlah="{{ $item->jumlah }}"
                                             data-kondisi="{{ ucfirst($item->kondisi_barang) }}"
-                                            data-harga="{{ $item->harga_per_hari }}"
+                                            data-harga="{{ $item->denda_per_hari }}"
                                             data-foto="{{ $item->foto ? asset('storage/'.$item->foto) : '' }}"
                                             data-status="{{ $item->status }}"
                                         >
@@ -73,7 +74,7 @@
                                             data-nama="{{ $item->nama_barang }}"
                                             data-jumlah="{{ $item->jumlah }}"
                                             data-kondisi="{{ $item->kondisi_barang }}"
-                                            data-harga="{{ $item->harga_per_hari }}"
+                                            data-harga="{{ $item->denda_per_hari }}"
                                             data-foto="{{ $item->foto ? asset('storage/'.$item->foto) : '' }}"
                                         >
                                             Edit
@@ -128,8 +129,8 @@
                 </label>
 
                 <label class="block">
-                    <span class="text-sm font-medium">Harga per Hari (Rp)</span>
-                    <input id="modalHarga" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 outline-none focus:border-zinc-900" type="number" step="0.01" min="0" name="harga_per_hari" value="0" required>
+                    <span class="text-sm font-medium">Denda per Hari (Rp)</span>
+                    <input id="modalHarga" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 outline-none focus:border-zinc-900" type="number" step="0.01" min="0" name="denda_per_hari" value="0" required>
                 </label>
 
                 <label class="block">
@@ -171,7 +172,7 @@
                         <dd id="viewStatus" class="mt-1 text-base font-semibold"></dd>
                     </div>
                     <div class="rounded-md bg-zinc-100 p-4">
-                        <dt class="text-xs font-medium uppercase text-zinc-500">Harga / Hari (Rp)</dt>
+                        <dt class="text-xs font-medium uppercase text-zinc-500">Denda / Hari (Rp)</dt>
                         <dd id="viewHarga" class="mt-1 text-base font-semibold"></dd>
                     </div>
                     <div class="rounded-md bg-zinc-100 p-4">

@@ -30,12 +30,7 @@ class PeminjamanController extends Controller
             ->whereDate('tanggal_kembali', now())
             ->sum('denda');
 
-        $penghasilanSewaHariIni = Peminjaman::query()
-            ->select(DB::raw('SUM(barang.harga_per_hari * peminjaman.lama_hari * peminjaman.jumlah_pinjam) as total'))
-            ->join('barang', 'peminjaman.id_barang', '=', 'barang.id_barang')
-            ->where('peminjaman.status_pinjam', 'dikembalikan')
-            ->whereDate('peminjaman.tanggal_kembali', now())
-            ->value('total');
+        $penghasilanSewaHariIni = 0; // Sewa gratis, jadi 0
 
         return view('admin.peminjaman.index', [
             'peminjaman' => $query->paginate(10)->withQueryString(),
@@ -140,10 +135,9 @@ class PeminjamanController extends Controller
             return back()->with('success', 'Permintaan pengembalian dikirim. Menunggu konfirmasi admin.');
         }
 
-        // Jika admin yang memproses (konfirmasi), terima input kondisi dan denda
+        // Jika admin yang memproses (konfirmasi), terima input kondisi
         $data = $request->validate([
             'kondisi_pengembalian' => ['nullable', 'string', 'max:255'],
-            'denda' => ['nullable', 'numeric', 'min:0'],
         ]);
 
         try {
@@ -151,11 +145,15 @@ class PeminjamanController extends Controller
                 $barang = Barang::query()->lockForUpdate()->findOrFail($peminjaman->id_barang);
                 $barang->increment('jumlah', $peminjaman->jumlah_pinjam);
 
+                // Hitung denda keterlambatan otomatis berdasarkan tanggal pengembalian aktual
+                $tanggalKembaliAktual = now()->toDateString();
+                $dendaKeterlambatan = $peminjaman->hitungDendaKeterlambatan($tanggalKembaliAktual);
+
                 $peminjaman->update([
-                    'tanggal_kembali' => now()->toDateString(),
+                    'tanggal_kembali' => $tanggalKembaliAktual,
                     'status_pinjam' => 'dikembalikan',
                     'kondisi_pengembalian' => $data['kondisi_pengembalian'] ?? null,
-                    'denda' => $data['denda'] ?? null,
+                    'denda' => $dendaKeterlambatan,
                 ]);
             });
         } catch (Throwable $e) {

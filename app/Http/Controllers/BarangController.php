@@ -93,7 +93,7 @@ class BarangController extends Controller
             'nama_barang' => ['required', 'string', 'max:100'],
             'jumlah' => ['required', 'integer', 'min:0'],
             'kondisi_barang' => ['required', 'in:baik,rusak'],
-            'harga_per_hari' => ['required', 'numeric', 'min:0'],
+            'denda_per_hari' => ['required', 'numeric', 'min:0'],
             // allow up to 5MB here; PHP ini limits must also permit this
             'foto' => ['nullable', 'image', 'max:5120'],
         ]);

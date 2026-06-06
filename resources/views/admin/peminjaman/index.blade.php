@@ -16,6 +16,7 @@
                 </form>
             </div>
         </section>
+        <br>
 
         <section class="flex gap-4">
             <div class="flex-1 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
@@ -23,8 +24,8 @@
                 <div class="mt-2 text-2xl font-semibold">{{ is_null($totalDendaHariIni) ? 'Rp 0,00' : 'Rp ' . number_format($totalDendaHariIni, 2, ',', '.') }}</div>
             </div>
             <div class="flex-1 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
-                <div class="text-sm font-medium text-zinc-500">Penghasilan Sewa Hari Ini</div>
-                <div class="mt-2 text-2xl font-semibold">{{ is_null($penghasilanSewaHariIni) ? 'Rp 0,00' : 'Rp ' . number_format($penghasilanSewaHariIni, 2, ',', '.') }}</div>
+                <div class="text-sm font-medium text-zinc-500">Keterangan</div>
+                <div class="mt-2 text-sm text-zinc-600">Sewa barang gratis. Denda hanya dikenakan jika terlambat pengembalian.</div>
             </div>
         </section>
 
@@ -49,9 +50,6 @@
                             <option value="baik">Baik</option>
                             <option value="rusak">Rusak</option>
                         </select>
-
-                        <label class="text-sm text-zinc-700">Denda (Rp)</label>
-                        <input name="denda" type="number" step="0.01" min="0" class="rounded-md border border-zinc-300 px-3 py-2 text-sm" placeholder="Masukkan jumlah denda jika ada">
                     </div>
 
                     <div class="mt-4 flex justify-end gap-3">

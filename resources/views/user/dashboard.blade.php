@@ -58,7 +58,7 @@
                     <th class="px-4 py-3">Foto</th>
                     <th class="px-4 py-3">Stok</th>
                     <th class="px-4 py-3">Kondisi</th>
-                    <th class="px-4 py-3">Harga / Hari</th>
+                    <th class="px-4 py-3">Denda / Hari</th>
                     <th class="px-4 py-3">Status</th>
                     <th class="px-4 py-3"></th>
                 </tr>
@@ -76,7 +76,7 @@
                         </td>
                         <td class="px-4 py-3">{{ $item->jumlah }}</td>
                         <td class="px-4 py-3 capitalize">{{ $item->kondisi_barang }}</td>
-                        <td class="px-4 py-3">Rp {{ number_format($item->harga_per_hari ?? 0, 2, ',', '.') }}</td>
+                        <td class="px-4 py-3">Rp {{ number_format($item->denda_per_hari ?? 0, 2, ',', '.') }}</td>
                         <td class="px-4 py-3">{{ $item->status }}</td>
                         <td class="px-4 py-3 text-right">
                             <div class="flex justify-end gap-2">
@@ -86,7 +86,7 @@
                                     data-jumlah="{{ $item->jumlah }}"
                                     data-kondisi="{{ ucfirst($item->kondisi_barang) }}"
                                     data-status="{{ $item->status }}"
-                                    data-harga="{{ $item->harga_per_hari ?? 0 }}"
+                                    data-harga="{{ $item->denda_per_hari ?? 0 }}"
                                     data-foto="{{ $item->foto ? asset('storage/'.$item->foto) : '' }}"
                                 >Detail</button>
                                 @if ($item->jumlah > 0 && $item->kondisi_barang === 'baik')
@@ -114,7 +114,7 @@
                         <th class="px-4 py-3">Jumlah</th>
                         <th class="px-4 py-3">Pinjam</th>
                         <th class="px-4 py-3">Kembali</th>
-                        <th class="px-4 py-3">Total Bayar</th>
+                        <th class="px-4 py-3">Biaya Sewa</th>
                         <th class="px-4 py-3">Kondisi Pengembalian</th>
                         <th class="px-4 py-3">Denda</th>
                         <th class="px-4 py-3">Status</th>
@@ -128,12 +128,7 @@
                             <td class="px-4 py-3">{{ $pinjam->jumlah_pinjam }}</td>
                             <td class="px-4 py-3">{{ $pinjam->tanggal_pinjam->format('d/m/Y') }}</td>
                             <td class="px-4 py-3">{{ $pinjam->tanggal_kembali?->format('d/m/Y') ?? '-' }}</td>
-                            @php
-                                $hargaPerHari = $pinjam->barang?->harga_per_hari ?? 0;
-                                $days = $pinjam->lama_hari ?? ($pinjam->tanggal_kembali ? $pinjam->tanggal_kembali->diffInDays($pinjam->tanggal_pinjam) : 1);
-                                $totalBayar = $hargaPerHari * $days * ($pinjam->jumlah_pinjam ?? 1);
-                            @endphp
-                            <td class="px-4 py-3">Rp {{ number_format($totalBayar, 2, ',', '.') }}</td>
+                            <td class="px-4 py-3"><span class="text-green-600 font-medium">Gratis</span></td>
                             <td class="px-4 py-3">{{ $pinjam->kondisi_pengembalian ?? '-' }}</td>
                             <td class="px-4 py-3">{{ is_null($pinjam->denda) ? '-' : 'Rp ' . number_format($pinjam->denda, 2, ',', '.') }}</td>
                             <td class="px-4 py-3 capitalize">{{ $pinjam->status_pinjam }}</td>
@@ -178,7 +173,7 @@
                         </div>
                         <div class="flex justify-between">
                             <dt class="font-medium text-zinc-500">Status</dt>
-                            <dd id="detailStatus" class="text-right"></dd>
+                            <dt class=\"font-medium text-zinc-500\">Denda / Hari</dt>
                         </div>
                     </dl>
                 </div>

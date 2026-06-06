@@ -26,13 +26,6 @@ class DashboardController extends Controller
                 ->whereNotNull('denda')
                 ->whereDate('tanggal_kembali', now())
                 ->sum('denda'),
-            // Penghasilan sewa hari ini (dihitung dari harga_per_hari * lama_hari * jumlah_pinjam pada items dikembalikan hari ini)
-            'penghasilanSewaHariIni' => Peminjaman::query()
-                ->select(DB::raw('SUM(barang.harga_per_hari * peminjaman.lama_hari * peminjaman.jumlah_pinjam) as total'))
-                ->join('barang', 'peminjaman.id_barang', '=', 'barang.id_barang')
-                ->where('peminjaman.status_pinjam', 'dikembalikan')
-                ->whereDate('peminjaman.tanggal_kembali', now())
-                ->value('total'),
             'peminjamanTerbaru' => Peminjaman::query()
                 ->with(['user', 'barang'])
                 ->latest('id_pinjam')

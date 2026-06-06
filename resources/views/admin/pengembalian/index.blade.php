@@ -99,10 +99,12 @@
                         </select>
                     </label>
 
-                    <label class="block">
-                        <span class="text-sm font-medium">Denda (Rp)</span>
-                        <input name="denda" type="number" step="0.01" min="0" class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 outline-none focus:border-zinc-900" placeholder="Masukkan jumlah denda jika ada">
-                    </label>
+                    <div class="rounded-md bg-blue-50 border border-blue-200 p-4">
+                        <div class="text-sm">
+                            <div class="text-zinc-600">Denda Keterlambatan Otomatis:</div>
+                            <div id="estimasiDenda" class="text-2xl font-bold text-blue-900 mt-2">-</div>
+                        </div>
+                    </div>
 
                     <div class="flex justify-end gap-3 pt-2">
                         <button type="button" data-close-pengembalian class="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-100">Batal</button>

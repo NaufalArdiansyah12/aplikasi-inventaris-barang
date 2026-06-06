@@ -30,4 +30,50 @@ class Peminjaman extends Model
     {
         return $this->belongsTo(Barang::class, 'id_barang', 'id_barang');
     }
+
+    /**
+     * Hitung denda keterlambatan berdasarkan tanggal pengembalian aktual
+     * 
+     * @param string|\DateTime $tanggalKembaliAktual Tanggal pengembalian aktual
+     * @return float Total denda (0 jika tidak terlambat)
+     */
+    public function hitungDendaKeterlambatan($tanggalKembaliAktual = null): float
+    {
+        // Jika tidak ada parameter, gunakan tanggal sekarang
+        if ($tanggalKembaliAktual === null) {
+            $tanggalKembaliAktual = now()->toDate();
+        }
+
+        $tanggalKembaliAktual = \Carbon\Carbon::parse($tanggalKembaliAktual);
+        $tanggalJatuhTempo = \Carbon\Carbon::parse($this->tanggal_kembali);
+
+        // Hitung selisih hari (jika positif berarti terlambat)
+        $hariTerlambat = $tanggalKembaliAktual->diffInDays($tanggalJatuhTempo);
+
+        // Jika tidak terlambat, denda = 0
+        if ($hariTerlambat <= 0) {
+            return 0;
+        }
+
+        // Total denda = hari terlambat × denda per hari × jumlah barang
+        return $hariTerlambat * $this->barang->denda_per_hari * $this->jumlah_pinjam;
+    }
+
+    /**
+     * Dapatkan status keterlambatan
+     * 
+     * @return array
+     */
+    public function getStatusKeterlambatan(): array
+    {
+        $tanggalSekarang = \Carbon\Carbon::now();
+        $tanggalJatuhTempo = \Carbon\Carbon::parse($this->tanggal_kembali);
+        $hariTerlambat = $tanggalSekarang->diffInDays($tanggalJatuhTempo);
+
+        return [
+            'terlambat' => $hariTerlambat > 0,
+            'hari_terlambat' => $hariTerlambat > 0 ? $hariTerlambat : 0,
+            'denda_estimasi' => $hariTerlambat > 0 ? $this->hitungDendaKeterlambatan($tanggalSekarang->toDateString()) : 0,
+        ];
+    }
 }

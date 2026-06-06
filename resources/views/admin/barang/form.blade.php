@@ -19,8 +19,9 @@
 </label>
 
 <label class="block">
-    <span class="text-sm font-medium">Harga per Hari (Rp)</span>
-    <input class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 outline-none focus:border-zinc-900" type="number" step="0.01" min="0" name="harga_per_hari" value="{{ old('harga_per_hari', $barang->harga_per_hari ?? 0) }}" required>
+    <span class="text-sm font-medium">Denda per Hari (Rp) <span class="text-red-500">*</span></span>
+    <input class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 outline-none focus:border-zinc-900" type="number" step="0.01" min="0" name="denda_per_hari" value="{{ old('denda_per_hari', $barang->denda_per_hari ?? 0) }}" required>
+    <p class="mt-1 text-xs text-zinc-500">Denda yang dikenakan untuk setiap hari keterlambatan pengembalian</p>
 </label>
 
 <label class="block">
